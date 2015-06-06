@@ -1,0 +1,15 @@
+2015/06/06 sta sunny
+    
+    when I decided to write a light web server by lua, I did known 
+how it started, even I could not write a makefile.
+    Its make me upset, I search in the internet for web server, for 
+makefile, I learned a new way to debug makefile, it a amazing ! very
+good script for debug the makefile. And I learned how to use VIM to 
+edit files in one window, even though I was used vim some year, but 
+I did not know how to use it effective. Te commamd is usefull.
+    I found a intersting shell script for test bash bug by the coolshell
+blog: 
+    X='() { (a)=>\' sh -c "echo date"; cat echo
+    
+    But I did not one line code!
+    
