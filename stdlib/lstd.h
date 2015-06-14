@@ -5,13 +5,11 @@
 #include "lualib.h"
 #include "lauxlib.h"
 
-#define LPOSIX_CONST(n) \
+#define LERR_NUMS(n) \
     do {\
         lua_pushinteger(L, n);\
         lua_setfield(L, -2, #n);\
     } while (0)
-
-#define LERR_NUMS(n)        LPOSIX_CONST(n)
 
 
 

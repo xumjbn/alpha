@@ -8,7 +8,7 @@
 #include "lstd.h"
 
 
-static void setfield_number(lua_State *L, const char *key, int value)
+static void setfield_number(lua_State *L, const char *key, lua_Number value)
 {
     lua_pushstring(L, key);
     lua_pushnumber(L, value);
@@ -133,7 +133,7 @@ static int ltime_localtime(lua_State *L)
 }
 
 /* 
- *  tp = time.mktime({sec=, min=, ...})
+ *  epoch = time.mktime({sec=, min=, ...})
  */
 static int ltime_mktime(lua_State *L)
 {
@@ -144,7 +144,7 @@ static int ltime_mktime(lua_State *L)
     if (tp != -1) {
         lua_pushnumber(L, tp);
     } else {
-        lua_pushboolean(L, false);
+        lua_pushnil(L);
     }
     return 1;
 }
@@ -215,6 +215,38 @@ static int ltime_strptime(lua_State *L)
 }
 #endif
 
+static int ltime_clock_gettime(lua_State *L)
+{
+    struct timespec tp;
+
+    lstd_checknargs(L, 1);
+    int clockid = luaL_checknumber(L, 1);
+    if (clock_gettime(clockid, &tp)) {
+        lua_newtable(L);
+        setfield_number(L, "tv_sec", tp.tv_sec);
+        setfield_number(L, "tv_nsec", tp.tv_nsec);
+    } else {
+        lua_pushnil(L);
+    }
+    return 1;
+}
+
+static int ltime_clock_getres(lua_State *L)
+{
+    struct timespec tp;
+
+    lstd_checknargs(L, 1);
+    int clockid = luaL_checknumber(L, 1);
+    if (clock_gettime(clockid, &tp)) {
+        lua_newtable(L);
+        setfield_number(L, "tv_sec", tp.tv_sec);
+        setfield_number(L, "tv_nsec", tp.tv_nsec);
+    } else {
+        lua_pushnil(L);
+    }
+    return 1;
+}
+
 static const struct luaL_Reg os_funcs[] = {
     {"time",        ltime_time},
     {"utime",       ltime_utime},
@@ -228,6 +260,8 @@ static const struct luaL_Reg os_funcs[] = {
 #ifdef _XOPEN_SOURCE
     {"strptime",    ltime_strptime},
 #endif
+    {"clock_gettime",   ltime_clock_gettime},
+    {"clock_getres",    ltime_clock_getres},
     {NULL,          NULL},
 };
 

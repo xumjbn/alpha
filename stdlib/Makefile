@@ -1,7 +1,7 @@
 
 CC ?= gcc
 CFLAGS += -D_REENTRANT -D_POSIX_SOURCE -fPIC 
-LDFLAGS :=  -shared -llua
+LDFLAGS :=  -shared -llua -lrt
 
 SRC = $(wildcard *.c)
 OBJS = $(SRC:%.c=%.o)
