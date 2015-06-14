@@ -73,6 +73,11 @@ static int lua_getegid(lua_State *L)
     return 1;
 }
 
+static int lua_sleep(lua_State *L)
+{
+    sleep(luaL_checknumber(L, 1));
+    return 0;
+}
 static const struct luaL_Reg os_funcs[] = {
     {"open",      los_open},
     {"getpid",    lua_getpid},
@@ -81,6 +86,7 @@ static const struct luaL_Reg os_funcs[] = {
     {"geteuid",   lua_geteuid},
     {"getgid",    lua_getgid},
     {"getegid",   lua_getegid},
+    {"sleep",     lua_sleep},
     {NULL, NULL},
 };
 

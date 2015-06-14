@@ -24,7 +24,7 @@ local function __dump(t, depth)
         for k, v in pairs(t) do
             dump_fmt(depth, "[ ")
             __dump(k, depth)
-            io.stdout:write(fmt(" ]%8s%8s", "=", " "))
+            io.stdout:write(fmt(" ]%4s%4s", "=", " "))
             __dump(v, depth)
             io.stdout:write(",\n")
         end
