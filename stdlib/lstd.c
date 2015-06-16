@@ -37,21 +37,21 @@ void lstd_checknargs(lua_State *L, int maxargs)
     lua_pop(L, 1);
 }
 
-void lstd_pushnumber_totable(lua_State *L, const char *key, lua_Number value)
+void lstd_rawsetnumber(lua_State *L, const char *key, int value)
 {
     lua_pushstring(L, key);
     lua_pushnumber(L, value);
     lua_rawset(L, -3);
 }
 
-void lstd_pushstring_totable(lua_State *L, const char *key, const char *value)
+void lstd_rawsetstring(lua_State *L, const char *key, const char *value)
 {
     lua_pushstring(L, key);
     lua_pushstring(L, value);
     lua_rawset(L, -3);
 }
 
-int lstd_popnumber_fromtable(lua_State *L, const char *key)
+int lstd_rawgetnumber(lua_State *L, const char *key)
 {
     int res = 0;
 
@@ -63,7 +63,7 @@ int lstd_popnumber_fromtable(lua_State *L, const char *key)
     return res;
 }
 
-char *lstd_popstring_fromarray(lua_State *L, int key)
+char *lstd_rawgetistring(lua_State *L, int key)
 {
     const char *res = "nil";
 

@@ -15,11 +15,11 @@
 
 void lstd_checknargs(lua_State *L, int maxargs);
 
-void lstd_pushnumber_totable(lua_State *L, const char *key, lua_Number value);
-int  lstd_popnumber_fromtable(lua_State *L, const char *key);
-void lstd_pushstring_totable(lua_State *L, const char *key, const char *value);
+void lstd_rawsetnumber(lua_State *L, const char *key, int value);
+int  lstd_rawgetnumber(lua_State *L, const char *key);
+void lstd_rawsetstring(lua_State *L, const char *key, const char *value);
 
-char *lstd_popstring_fromarray(lua_State *L, int key);
+char *lstd_rawgetistring(lua_State *L, int key);
 
 void lstd_stackdump(lua_State *L);
 

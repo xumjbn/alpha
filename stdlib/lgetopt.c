@@ -17,7 +17,7 @@ static int parse_optlongs(lua_State *L, int index, struct option *optlongs)
         lua_pushnumber(L, i);
         lua_rawget(L, -2);
         luaL_checktype(L, -1, LUA_TTABLE);
-        s = lstd_popstring_fromarray(L, 2);
+        s = lstd_rawgetistring(L, 2);
         if (strcmp(s, "none") == 0) 
             has_arg = no_argument;
         else if (strcmp(s, "required") == 0)
@@ -27,10 +27,10 @@ static int parse_optlongs(lua_State *L, int index, struct option *optlongs)
         else {
             luaL_error(L, "arguments expected (none or required or optional");
         }
-        optlongs[i - 1].name = lstd_popstring_fromarray(L, 1);
+        optlongs[i - 1].name = lstd_rawgetistring(L, 1);
         optlongs[i - 1].has_arg = has_arg;
         optlongs[i - 1].flag = NULL;
-        s = lstd_popstring_fromarray(L, 3);
+        s = lstd_rawgetistring(L, 3);
         optlongs[i - 1].val = s[0];        
         lua_pop(L, 1);
     }
@@ -47,7 +47,7 @@ static int parse_args(lua_State *L, int index, int *argc, char *argv[])
     if (nargs > 64)
         luaL_error(L, "argments is too loog %d, should less than  64", argc);
     for (i = 0; i <= nargs; i++) 
-        argv[i] = lstd_popstring_fromarray(L, i);
+        argv[i] = lstd_rawgetistring(L, i);
     argv[i] = NULL;
     *argc = nargs + 1;
     lua_pop(L, 1);

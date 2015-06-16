@@ -10,30 +10,30 @@
 
 static void settime_to_table(lua_State *L, struct tm *tm)
 {
-    lstd_pushnumber_totable(L, "sec", tm->tm_sec);
-    lstd_pushnumber_totable(L, "min", tm->tm_min);
-    lstd_pushnumber_totable(L, "hour", tm->tm_hour);
-    lstd_pushnumber_totable(L, "mday", tm->tm_mday);
-    lstd_pushnumber_totable(L, "mon", tm->tm_mon);
-    lstd_pushnumber_totable(L, "year", tm->tm_year);
-    lstd_pushnumber_totable(L, "wday", tm->tm_wday);
-    lstd_pushnumber_totable(L, "yday", tm->tm_yday);
-    lstd_pushnumber_totable(L, "isdst", tm->tm_isdst);
+    lstd_rawsetnumber(L, "sec", tm->tm_sec);
+    lstd_rawsetnumber(L, "min", tm->tm_min);
+    lstd_rawsetnumber(L, "hour", tm->tm_hour);
+    lstd_rawsetnumber(L, "mday", tm->tm_mday);
+    lstd_rawsetnumber(L, "mon", tm->tm_mon);
+    lstd_rawsetnumber(L, "year", tm->tm_year);
+    lstd_rawsetnumber(L, "wday", tm->tm_wday);
+    lstd_rawsetnumber(L, "yday", tm->tm_yday);
+    lstd_rawsetnumber(L, "isdst", tm->tm_isdst);
 }
 
 
 /* FIXME : if tm members is nil, we should give the right default value */
 static void gettime_from_table(lua_State *L, struct tm *tm)
 {
-    tm->tm_sec = lstd_popnumber_fromtable(L, "sec");
-    tm->tm_min = lstd_popnumber_fromtable(L, "min");
-    tm->tm_hour = lstd_popnumber_fromtable(L, "hour");
-    tm->tm_mday = lstd_popnumber_fromtable(L, "mday");
-    tm->tm_mon = lstd_popnumber_fromtable(L, "mon");
-    tm->tm_year = lstd_popnumber_fromtable(L, "year");
-    tm->tm_wday = lstd_popnumber_fromtable(L, "wday");
-    tm->tm_yday = lstd_popnumber_fromtable(L, "yday");
-    tm->tm_isdst = lstd_popnumber_fromtable(L, "isdst");
+    tm->tm_sec = lstd_rawgetnumber(L, "sec");
+    tm->tm_min = lstd_rawgetnumber(L, "min");
+    tm->tm_hour = lstd_rawgetnumber(L, "hour");
+    tm->tm_mday = lstd_rawgetnumber(L, "mday");
+    tm->tm_mon = lstd_rawgetnumber(L, "mon");
+    tm->tm_year = lstd_rawgetnumber(L, "year");
+    tm->tm_wday = lstd_rawgetnumber(L, "wday");
+    tm->tm_yday = lstd_rawgetnumber(L, "yday");
+    tm->tm_isdst = lstd_rawgetnumber(L, "isdst");
 }
 
 /*
@@ -207,8 +207,8 @@ static int ltime_clock_gettime(lua_State *L)
     int clockid = luaL_checknumber(L, 1);
     if (clock_gettime(clockid, &tp)) {
         lua_newtable(L);
-        lstd_pushnumber_totable(L, "tv_sec", tp.tv_sec);
-        lstd_pushnumber_totable(L, "tv_nsec", tp.tv_nsec);
+        lstd_rawsetnumber(L, "tv_sec", tp.tv_sec);
+        lstd_rawsetnumber(L, "tv_nsec", tp.tv_nsec);
     } else {
         lua_pushnil(L);
     }
@@ -223,8 +223,8 @@ static int ltime_clock_getres(lua_State *L)
     int clockid = luaL_checknumber(L, 1);
     if (clock_gettime(clockid, &tp)) {
         lua_newtable(L);
-        lstd_pushnumber_totable(L, "tv_sec", tp.tv_sec);
-        lstd_pushnumber_totable(L, "tv_nsec", tp.tv_nsec);
+        lstd_rawsetnumber(L, "tv_sec", tp.tv_sec);
+        lstd_rawsetnumber(L, "tv_nsec", tp.tv_nsec);
     } else {
         lua_pushnil(L);
     }
