@@ -12,6 +12,9 @@
     } while (0)
 
 
+#define MALLOC(size)    malloc(size)
+#define RALLOC(size)    ralloc(size)
+#define FREE(p)         free(p)
 
 void lstd_checknargs(lua_State *L, int maxargs);
 
@@ -23,10 +26,14 @@ char *lstd_rawgetistring(lua_State *L, int key);
 
 void lstd_stackdump(lua_State *L);
 
-int lstd_openos(lua_State * L);
-int lstd_opentime(lua_State * L);
+
+
+/* stdlib api */
+int lstd_openos(lua_State *L);
+int lstd_opentime(lua_State *L);
 int lstd_openerr(lua_State *L);
 int lstd_openopt(lua_State *L);
+int lstd_openarr(lua_State *L);
 
 #endif /* _LSTD_H */
 

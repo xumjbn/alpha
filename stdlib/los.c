@@ -79,6 +79,7 @@ static int lua_sleep(lua_State *L)
     sleep(luaL_checknumber(L, 1));
     return 0;
 }
+
 static const struct luaL_Reg os_funcs[] = {
     {"open",      los_open},
     {"getpid",    lua_getpid},
