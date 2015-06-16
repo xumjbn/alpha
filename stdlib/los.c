@@ -16,7 +16,7 @@ static int los_open(lua_State *L)
         perror("args its too short");
         return -1;
     }
-
+/*
     int oflag = 0;
     char *pathname = lua_tostring(luaL_checkstring(L, 1), 1);
     char *flag = lua_tostring(luaL_checkstring(L, 2), 2);
@@ -34,6 +34,7 @@ static int los_open(lua_State *L)
         lua_pushnil(L);
         lua_pushnumber(L, res);
     }
+    */
     return 2;
 }
 
@@ -87,7 +88,7 @@ static const struct luaL_Reg os_funcs[] = {
     {"getgid",    lua_getgid},
     {"getegid",   lua_getegid},
     {"sleep",     lua_sleep},
-    {NULL, NULL},
+    {NULL,        NULL},
 };
 
 int lstd_openos(lua_State *L)

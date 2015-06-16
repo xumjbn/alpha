@@ -174,7 +174,7 @@ static void lerrno_register(lua_State *L)
     LERR_NUMS(ENOTRECOVERABLE);         /* State not recoverable */
 }
 
-static const struct luaL_Reg os_funcs[] = {
+static const struct luaL_Reg err_funcs[] = {
     {"strerror",    lerr_strerror},
     {"perror",      lerr_perror},
     {"seterrno",    lerr_seterrno},
@@ -183,7 +183,7 @@ static const struct luaL_Reg os_funcs[] = {
 
 int lstd_openerr(lua_State *L)
 {
-    luaL_register(L, "err", os_funcs);
+    luaL_register(L, "err", err_funcs);
     lerrno_register(L);
     return 0;
 }
