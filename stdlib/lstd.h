@@ -5,12 +5,13 @@
 #include "lualib.h"
 #include "lauxlib.h"
 
-#define LERR_NUMS(n) \
+#define LENUMS(n) \
     do {\
         lua_pushinteger(L, n);\
         lua_setfield(L, -2, #n);\
     } while (0)
 
+#define LERR_NUMS(n)    LENUMS(n)   
 
 #define MALLOC(size)    malloc(size)
 #define RALLOC(size)    ralloc(size)
@@ -34,6 +35,7 @@ int lstd_opentime(lua_State *L);
 int lstd_openerr(lua_State *L);
 int lstd_openopt(lua_State *L);
 int lstd_openarr(lua_State *L);
+int lstd_opensyslog(lua_State *L);
 
 #endif /* _LSTD_H */
 

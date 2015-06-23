@@ -82,7 +82,8 @@ int luaopen_std(lua_State *L)
     lstd_opentime(L);
     lstd_openerr(L);
     lstd_openopt(L);
-    lstd_openarr(L);
+    //lstd_openarr(L);
+    lstd_opensyslog(L);
     return 1;
 }
 
