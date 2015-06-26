@@ -334,6 +334,46 @@ static int lfs_dir(lua_State *L)
 	return 2;
 }
 
+/*
+ * err = fs.isfile(path)
+ */
+static int lfs_isfile(lua_State *L)
+{
+	struct stat statbuf;
+	
+	lstd_checknargs(L, 1);
+    const char *path = luaL_checkstring(L, 1);
+	int err = stat(path, &statbuf);
+	if (err != -1) {
+		lua_pushnumber(L, 0);
+		lua_pushboolean(L, !0);
+	} else {
+		lua_pushnumber(L, errno);
+		lua_pushboolean(L, S_ISDIR(statbuf.st_mode)? 0: !0);
+	}
+	return 2;
+}
+
+/*
+ * err, stat = fs.isdir(path)
+ */
+static int lfs_isdir(lua_State *L)
+{
+	struct stat statbuf;
+	
+	lstd_checknargs(L, 1);
+    const char *path = luaL_checkstring(L, 1);
+	int err = stat(path, &statbuf);
+	if (err != -1) {
+		lua_pushnumber(L, 0);
+		lua_pushboolean(L, !0);
+	} else {
+		lua_pushnumber(L, errno);
+		lua_pushboolean(L, S_ISDIR(statbuf.st_mode)? !0: 0);
+	}
+	return 2;
+}
+
 static void lfs_const_register(lua_State *L)
 {
 	/* for acess */
@@ -383,7 +423,10 @@ static const struct luaL_Reg fs_funcs[] = {
     {"utime",    lfs_utime},
     {"chdir",    lfs_chdir},
     {"getcwd",   lfs_getcwd},
+	
 	{"dir", 	 lfs_dir},
+	{"isfile", 	 lfs_isfile},
+	{"isdir", 	 lfs_isdir},
     {NULL,       NULL},
 };
 
