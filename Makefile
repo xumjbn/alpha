@@ -1,6 +1,6 @@
 
 export CC = gcc
-export CFLAGS := -Wall -Wextra -std=c99 -pipe -DDEBUG -g -D_GUN_SOURCE
+export CFLAGS := -Wall -Wextra -std=c99 -pipe -DDEBUG -g -D_BSD_SOURCE
 
 STD_DIR := stdlib
 SRC = $(wildcard *.c)
