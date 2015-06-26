@@ -2,6 +2,8 @@
 #ifndef _LSTD_H
 #define _LSTD_H
 
+#include <string.h>
+
 #include "lualib.h"
 #include "lauxlib.h"
 
@@ -23,7 +25,7 @@ void lstd_rawsetnumber(lua_State *L, const char *key, int value);
 int  lstd_rawgetnumber(lua_State *L, const char *key);
 void lstd_rawsetstring(lua_State *L, const char *key, const char *value);
 
-char *lstd_rawgetistring(lua_State *L, int key);
+const char *lstd_rawgetistring(lua_State *L, int key);
 
 void lstd_stackdump(lua_State *L);
 
@@ -31,6 +33,7 @@ void lstd_stackdump(lua_State *L);
 
 /* stdlib api */
 int lstd_openos(lua_State *L);
+int lstd_openfs(lua_State *L);
 int lstd_opentime(lua_State *L);
 int lstd_openerr(lua_State *L);
 int lstd_openopt(lua_State *L);

@@ -1,6 +1,6 @@
 
 CC ?= gcc
-CFLAGS += -D_REENTRANT -D_POSIX_SOURCE -fPIC 
+CFLAGS += -D_REENTRANT -fPIC 
 LDFLAGS :=  -shared -llua -lrt
 
 SRC = $(wildcard *.c)

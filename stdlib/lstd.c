@@ -1,5 +1,3 @@
-#include "lualib.h"
-#include "lauxlib.h"
 
 #include "lstd.h"
 
@@ -33,7 +31,7 @@ void lstd_checknargs(lua_State *L, int maxargs)
     int nargs = lua_gettop(L);
     lua_pushfstring(L, "no more than %d argument%s expected, got %d",
             maxargs, maxargs <= 1? "": "s", nargs);
-    luaL_argcheck(L, nargs <= maxargs, maxargs + 1, lua_tostring(L, -1));
+    luaL_argcheck(L, nargs >= maxargs, maxargs + 1, lua_tostring(L, -1));
     lua_pop(L, 1);
 }
 
@@ -63,22 +61,23 @@ int lstd_rawgetnumber(lua_State *L, const char *key)
     return res;
 }
 
-char *lstd_rawgetistring(lua_State *L, int key)
+const char *lstd_rawgetistring(lua_State *L, int key)
 {
-    const char *res = "nil";
+    const char *str = "nil";
 
     lua_pushnumber(L, key);
     lua_rawget(L, -2);
     if (lua_isnil(L, -1) != 1) 
-        res = luaL_checkstring(L, -1);
+       str = luaL_checkstring(L, -1);
     lua_pop(L, 1);
-    return res;
+    return str;
 }
 
 
 int luaopen_std(lua_State *L)
 {
     lstd_openos(L);
+    lstd_openfs(L);
     lstd_opentime(L);
     lstd_openerr(L);
     lstd_openopt(L);
