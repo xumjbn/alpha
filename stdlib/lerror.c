@@ -23,8 +23,8 @@ static int lerr_strerror(lua_State *L)
  */
 static int lerr_perror(lua_State *L)
 {
-    const char *msg = luaL_checkstring(L, 1);
-    perror(msg);
+    int err = luaL_checkint(L, 1);
+    printf("%s\n", strerror(err));
     return 0;
 }
 
@@ -183,7 +183,7 @@ static const struct luaL_Reg err_funcs[] = {
 
 int lstd_openerr(lua_State *L)
 {
-    luaL_register(L, "err", err_funcs);
+    luaL_register(L, "errno", err_funcs);
     lerrno_register(L);
     return 0;
 }

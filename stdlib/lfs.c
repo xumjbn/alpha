@@ -301,7 +301,6 @@ static int lfs_getcwd(lua_State *L)
     return 1;
 }
 
-
 /*
  * err, dir = fs.dir(dirname)
  */
