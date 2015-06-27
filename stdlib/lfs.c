@@ -5,6 +5,7 @@
 #include <utime.h>
 #include <dirent.h> /* oepndir */
 #include <glob.h>	/* glob */
+#include <stdint.h>
 #include <errno.h>
 
 #include "lstd.h"
@@ -386,7 +387,7 @@ static int lfs_isdir(lua_State *L)
 static int lfs_glob(lua_State *L)
 {
 	glob_t gb;
-	int i = 0;
+	uint32_t i = 0;
 	
 	lstd_checknargs(L, 1);
     const char *s = luaL_checkstring(L, 1);
@@ -396,12 +397,9 @@ static int lfs_glob(lua_State *L)
 		lua_pushnumber(L, 0);
 		lua_newtable(L);
 		for (i = 1; i <= gb.gl_pathc; i++) {
-			//if (strcmp(gb.gl_pathv[i], ".") != 0 
-               // && strcmp(gb.gl_pathv[i], "..") != 0) {
 				lua_pushnumber(L, i);
 				lua_pushstring(L, gb.gl_pathv[i]);
 				lua_rawset(L, -3);
-			//}
 		}
 		if (i == 1) {
 			lua_pop(L, 1);

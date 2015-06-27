@@ -7,6 +7,9 @@
 #include "lualib.h"
 #include "lauxlib.h"
 
+
+#define UNUSED(x) (void)x 
+
 #define LENUMS(n) \
     do {\
         lua_pushinteger(L, n);\
@@ -18,6 +21,9 @@
 #define MALLOC(size)    malloc(size)
 #define RALLOC(size)    ralloc(size)
 #define FREE(p)         free(p)
+
+
+
 
 void lstd_checknargs(lua_State *L, int maxargs);
 
