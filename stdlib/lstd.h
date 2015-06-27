@@ -38,6 +38,7 @@ int lstd_opentime(lua_State *L);
 int lstd_openerr(lua_State *L);
 int lstd_openopt(lua_State *L);
 int lstd_openarr(lua_State *L);
+int lstd_opensocket(lua_State *L);
 int lstd_opensyslog(lua_State *L);
 
 #endif /* _LSTD_H */

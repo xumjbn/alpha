@@ -64,26 +64,20 @@ static int larr_size(lua_State *L)
 
 static const struct luaL_Reg arr_funcs[] = {
     {"new",     larr_new},
-    {"set",     larr_set},
-    {"get",     larr_get},
-    {"size",    larr_size},
     {NULL,      NULL},
+};
+
+static const struct luaL_Reg arr_metafuncs[] = {
+    {"__index",     larr_get},
+    {"__newindex",  larr_set},
+    {"__len",       larr_size},
+    {NULL,          NULL},
 };
 
 int lstd_openarr(lua_State *L)
 {
     luaL_newmetatable(L, "lstd.array");
+    luaL_register(L, NULL, arr_metafuncs);
     luaL_register(L, "arr", arr_funcs);
-
-    lua_pushstring(L, "__index");
-    lua_pushstring(L, "get");
-    lua_gettable(L, 2);
-    lua_settable(L, 1);
-
-    lua_pushstring(L, "__newindex");
-    lua_pushstring(L, "set");
-    lua_gettable(L, 2);
-    lua_settable(L, 1);
-
     return 0;
 }
