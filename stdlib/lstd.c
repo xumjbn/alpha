@@ -64,7 +64,7 @@ int lstd_rawgetnumber(lua_State *L, const char *key)
 
 const char *lstd_rawgetistring(lua_State *L, int key)
 {
-    const char *str = "nil";
+    const char *str = "nil";	/* FIXME: mabye that's a bug */
 
     lua_pushnumber(L, key);
     lua_rawget(L, -2);

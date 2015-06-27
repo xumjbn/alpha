@@ -4,6 +4,7 @@
 #include <sys/stat.h>
 #include <utime.h>
 #include <dirent.h> /* oepndir */
+#include <glob.h>	/* glob */
 #include <errno.h>
 
 #include "lstd.h"
@@ -317,19 +318,23 @@ static int lfs_dir(lua_State *L)
 		return 1;
 	}
 	
+	lua_pushnumber(L, 0);
 	int i = 1;
 	struct dirent *entry;
 	lua_newtable(L);
 	while ((entry = readdir(dp)) != NULL) {
         if (strcmp(entry->d_name, ".") != 0 
-                && strcmp(entry->d_name, "..")) {
+                && strcmp(entry->d_name, "..") != 0) {
             lua_pushnumber(L, i++);
             lua_pushstring(L, entry->d_name);
             lua_rawset(L, -3);
         }
 	}
+	if (i == 1) {
+		lua_pop(L, 1);
+		lua_pushnil(L);
+	}
 	closedir(dp);
-	lua_pushnumber(L, 0);
 	return 2;
 }
 
@@ -370,6 +375,43 @@ static int lfs_isdir(lua_State *L)
 		lua_pushnumber(L, errno);
 		lua_pushboolean(L, S_ISDIR(statbuf.st_mode)? !0: 0);
 	}
+	return 2;
+}
+
+/*
+ * err, dir = fs.glob(pattern)
+ * support sch brace expression lik "{foo{, cat, dog}, bar}"
+ * then would return "foo/", "foo/cat/", "foo/dog", "bar"
+ */
+static int lfs_glob(lua_State *L)
+{
+	glob_t gb;
+	int i = 0;
+	
+	lstd_checknargs(L, 1);
+    const char *s = luaL_checkstring(L, 1);
+	
+	int res = glob(s, GLOB_BRACE | GLOB_TILDE, NULL, &gb);
+	if (res == 0) {
+		lua_pushnumber(L, 0);
+		lua_newtable(L);
+		for (i = 1; i <= gb.gl_pathc; i++) {
+			//if (strcmp(gb.gl_pathv[i], ".") != 0 
+               // && strcmp(gb.gl_pathv[i], "..") != 0) {
+				lua_pushnumber(L, i);
+				lua_pushstring(L, gb.gl_pathv[i]);
+				lua_rawset(L, -3);
+			//}
+		}
+		if (i == 1) {
+			lua_pop(L, 1);
+			lua_pushnil(L);
+		}
+	} else {
+		lua_pushnumber(L, errno);
+		lua_pushnil(L);
+	}
+	globfree(&gb);
 	return 2;
 }
 
@@ -426,6 +468,7 @@ static const struct luaL_Reg fs_funcs[] = {
 	{"dir", 	 lfs_dir},
 	{"isfile", 	 lfs_isfile},
 	{"isdir", 	 lfs_isdir},
+	{"glob", 	 lfs_glob},
     {NULL,       NULL},
 };
 

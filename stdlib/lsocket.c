@@ -44,16 +44,16 @@ static int lsocket_bind(lua_State *L)
 	const char *s = luaL_checkstring(L, 2);
 	uint16_t port = luaL_checkint(L, 3);
 	
-	bzero(sa, sizeof(sa));
+	bzero(&sa, sizeof(sa));
 	int res = inet_aton(s, &addr);
 	if (res) {
 		sa.sin_family = AF_INET;
 		sa.sin_port = htons(port);
 		sa.sin_addr.s_addr = htonl(addr.s_addr);
-		int err = bind(fd, (SA *)&sa, sizeof(struct sockaddr));
+		int err = bind(fd, (struct sockaddr *)&sa, sizeof(struct sockaddr));
 		lua_pushnumber(L, err? errno: 0);
 	} else {
-		lua_pushnumber(L, errno);
+		luaL_error(L, "%s\n", "invalid ip address");
 	}
 	return 1;
 }
