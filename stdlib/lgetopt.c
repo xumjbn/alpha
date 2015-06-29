@@ -46,8 +46,12 @@ static int parse_args(lua_State *L, int index, int *argc, char *argv[])
     int nargs = lua_objlen(L, index);
     if (nargs > 64)
         luaL_error(L, "argments is too loog %d, should less than  64", argc);
-    for (i = 0; i <= nargs; i++) 
-        argv[i] = lstd_rawgetistring(L, i);
+    for (i = 0; i <= nargs; i++) {
+		lua_pushnumber(L, i);
+		lua_rawget(L, -2);
+		argv[i] = (char *)luaL_checkstring(L, -1);
+		lua_pop(L, 1);        
+	}
     argv[i] = NULL;
     *argc = nargs + 1;
     lua_pop(L, 1);

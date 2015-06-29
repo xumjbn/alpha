@@ -116,6 +116,37 @@ static int los_sync(lua_State *L)
     return 0;
 }
 
+/*
+ * os.abart()
+ */
+static int los_abort(lua_State *L)
+{
+	UNUSED(L);
+    abort();
+    return 0;
+}
+
+/*
+ * err = os.pause()
+ */
+static int los_pause(lua_State *L)
+{
+    int err = pause();
+    lua_pushnumber(L, err? errno: 0);
+    return 1;
+}
+
+/*
+ * sec = os.alarm(sec)
+ */
+static int los_alarm(lua_State *L)
+{
+    lstd_checknargs(L, 1);
+    int sec = luaL_checkint(L, 1);
+    lua_pushnumber(L, alarm(sec));
+    return 1;
+}
+
 static void los_const_register(lua_State *L)
 {
 	/* open oflag  */
@@ -143,6 +174,9 @@ static const struct luaL_Reg os_funcs[] = {
     {"sleep",   los_sleep},
     {"usleep",  los_usleep},
     {"sync",    los_sync},
+    {"abort",   los_abort},
+    {"pause",   los_pause},
+    {"alarm",   los_alarm},
     {NULL,      NULL},
 };
 

@@ -52,26 +52,20 @@ void lstd_rawsetstring(lua_State *L, const char *key, const char *value)
 
 int lstd_rawgetnumber(lua_State *L, const char *key)
 {
-    int res = 0;
-
     lua_pushstring(L, key);
     lua_rawget(L, -2);
-    if (lua_isnil(L, -1) != 1) 
-        res = luaL_checknumber(L, -1);
+    int res = luaL_checknumber(L, -1);
     lua_pop(L, 1);
     return res;
 }
 
 const char *lstd_rawgetistring(lua_State *L, int key)
 {
-    const char *str = "nil";	/* FIXME: mabye that's a bug */
-
     lua_pushnumber(L, key);
     lua_rawget(L, -2);
-    if (lua_isnil(L, -1) != 1) 
-       str = luaL_checkstring(L, -1);
+    const char *s = luaL_checkstring(L, -1);
     lua_pop(L, 1);
-    return str;
+    return s;
 }
 
 
@@ -85,6 +79,7 @@ int luaopen_std(lua_State *L)
     lstd_openarr(L);
 	lstd_opensocket(L);
     lstd_opensyslog(L);
+    lstd_opensignal(L);
     return 1;
 }
 
